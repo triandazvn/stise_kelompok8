@@ -54,3 +54,19 @@ app.get('/movies/poster', (req, res) => {
   ];
   res.json(movies);
 });
+
+app.get("/movies/filter", async (req, res) => {
+  const title = req.query.title || "";
+  const sql = `SELECT * FROM movies WHERE title LIKE ?`;
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const [rows] = await conn.query(sql, [`%${title}%`]);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: String(err) });
+  } finally {
+    if (conn) conn.release();
+  }
+});
