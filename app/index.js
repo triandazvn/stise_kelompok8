@@ -4,6 +4,7 @@ const express = require("express");
 const mysql = require("mysql2/promise");
 
 const app = express();
+const port = 3000;
 
 // ==== HARD-CODED SETTINGS ====
 const DB_HOST = "103.16.116.159";
@@ -42,4 +43,14 @@ app.get("/movies", async (_req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Movies API (Node) running on http://0.0.0.0:${PORT}`);
+});
+
+// Endpoint baru untuk menampilkan URL poster film
+app.get('/movies/poster', (req, res) => {
+  const movies = [
+    { id: 1, title: 'Inception', posterUrl: 'https://image.tmdb.org/t/p/original/inception.jpg' },
+    { id: 2, title: 'Interstellar', posterUrl: 'https://image.tmdb.org/t/p/original/interstellar.jpg' },
+    { id: 3, title: 'The Dark Knight', posterUrl: 'https://image.tmdb.org/t/p/original/darkknight.jpg' }
+  ];
+  res.json(movies);
 });
